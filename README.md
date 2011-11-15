@@ -3,11 +3,15 @@ Byggscript och resurser för att skapa, underhålla och deploya samtliga script 
 
 ## Installation
 Följande rubygems måste finnas installerade:
+  
+  * Byggmiljön kräver följande gems:
+    * rake
+    * coffee-script
+    * sprockets
+    * uglifier
 
-  * coffee-script
-  * rake
-  * sprockets
-  * uglifier
+  * Kör `git clone git@github.com:mittmedia/site-scripts.git`
+  * Kör `bundle install`
 
 ## Användning
 
