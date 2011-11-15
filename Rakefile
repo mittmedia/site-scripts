@@ -10,8 +10,7 @@ environment.append_path src_dir
 
 def filename(file)
   basename = File.basename(file) # target single needs xy.js, not src/xy.js
-  basename.chomp!(".coffee")
-  basename.chomp!(".js")
+  basename.chomp(".coffee").chomp(".js")
 end
 
 namespace "build" do
