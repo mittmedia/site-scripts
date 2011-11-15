@@ -37,7 +37,7 @@ namespace "build" do
     output_min = File.join(build_dir, "#{input}.min.js")
 
     # get sprocket bundle
-    print "Compiling #{input}... "
+    print "Building #{input}... "
     bundle = environment[input]
 
     # write target file
