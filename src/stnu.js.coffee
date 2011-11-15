@@ -1,4 +1,4 @@
 //= require "vendor/vendor"
 //= require "lib/test"
-
-console.log 'websites/stnu.coffee'
+name = "st.nu"
+console.log name

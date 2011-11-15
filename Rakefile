@@ -1,4 +1,5 @@
 require "sprockets"
+require "uglifier"
 
 task :default => "build:all"
 
@@ -8,6 +9,7 @@ src_dir = "src"
 environment = Sprockets::Environment.new
 environment.append_path src_dir
 
+# From a given filename src/test.{coffee,js} returns the canonical filename test
 def filename(file)
   basename = File.basename(file) # target single needs xy.js, not src/xy.js
   basename.chomp(".coffee").chomp(".js")
@@ -27,11 +29,22 @@ namespace "build" do
 
     input = filename(args.target)
     output = File.join(build_dir, "#{input}.js")
+    output_min = File.join(build_dir, "#{input}.min.js")
 
+    # get sprocket bundle
     print "Compiling #{input}... "
+    bundle = environment[input]
+
+    # write target file
     File.open(output, 'w') do |f|
-      f.write environment[input]
+      f.write bundle
     end
+
+    # write minified target file
+    File.open(output_min, 'w') do |f|
+      f.write Uglifier.compile(bundle.to_s)
+    end
+
     puts "done"
   end
 
