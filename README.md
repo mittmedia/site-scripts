@@ -5,6 +5,7 @@ Byggscript och resurser för att skapa, underhålla och deploya samtliga script 
 Följande rubygems måste finnas installerade:
   
   * Byggmiljön kräver följande gems:
+    * bundler
     * rake
     * coffee-script
     * sprockets
