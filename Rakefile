@@ -18,6 +18,12 @@ def filename(file)
   basename.chomp(".coffee").chomp(".js")
 end
 
+def progress_bar(&block)
+  print "."
+  yield
+  print "."
+end
+
 namespace "build" do
   desc "Build a single target in directory '#{src_dir}'"
   task :single, [:target] do |t, args|
@@ -35,22 +41,29 @@ namespace "build" do
     input = filename(args.target)
     output = File.join(build_dir, "#{input}.js")
     output_min = File.join(build_dir, "#{input}.min.js")
+    bundle = nil
+    print "Building #{input}"
 
     # get sprocket bundle
-    print "Building #{input}... "
-    bundle = environment[input]
+    progress_bar do
+      bundle = environment[input].to_s
+    end
 
     # write target file
-    File.open(output, 'w') do |f|
-      f.write bundle
+    progress_bar do
+      File.open(output, 'w') do |f|
+        f.write bundle
+      end
     end
 
     # write minified target file
-    File.open(output_min, 'w') do |f|
-      f.write Uglifier.compile(bundle.to_s)
+    progress_bar do
+      File.open(output_min, 'w') do |f|
+        f.write Uglifier.compile(bundle)
+      end
     end
 
-    puts "done"
+    puts " done"
   end
 
   desc "Build all targets in directory '#{src_dir}'"
