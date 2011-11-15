@@ -18,6 +18,7 @@ def filename(file)
   basename.chomp(".coffee").chomp(".js")
 end
 
+# Wrap a block of code with progress indication
 def progress_bar(&block)
   print "."
   yield
