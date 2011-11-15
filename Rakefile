@@ -26,7 +26,7 @@ namespace "build" do
       puts "The file my_target.{coffee,js} must exist in #{src_dir}. It may contain sprocket directives //= require foo"
     end
 
-    input = args.target
+    input = filename(args.target)
     output = File.join(build_dir, "#{input}.js")
 
     print "Compiling #{input}... "
@@ -44,6 +44,16 @@ namespace "build" do
       target = filename(file)
       Rake::Task["build:single"].reenable
       Rake::Task["build:single"].invoke target
+    end
+  end
+end
+
+namespace "clear" do
+  desc "Clear build directory: #{build_dir}"
+  task :build do
+    Dir.foreach(build_dir) do |file|
+      next if file =~ /^[\.]/
+      File.unlink File.join(build_dir, file)
     end
   end
 end
