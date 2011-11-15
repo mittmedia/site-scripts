@@ -14,7 +14,7 @@ def filename(file)
 end
 
 namespace "build" do
-  desc "Build a single target in directory #{src_dir}"
+  desc "Build a single target in directory '#{src_dir}'"
   task :single, [:target] do |t, args|
     unless args.target
       puts "Invalid target!"
@@ -35,7 +35,7 @@ namespace "build" do
     puts "done"
   end
 
-  desc "Build all targets in directory #{src_dir}"
+  desc "Build all targets in directory '#{src_dir}'"
   task :all do
     path = File.join(src_dir, "*.{coffee,js}")
 
@@ -48,7 +48,7 @@ namespace "build" do
 end
 
 namespace "clear" do
-  desc "Clear build directory: #{build_dir}"
+  desc "Clear everything in directory '#{build_dir}'"
   task :build do
     Dir.foreach(build_dir) do |file|
       next if file =~ /^[\.]/
