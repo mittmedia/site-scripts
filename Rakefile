@@ -20,11 +20,13 @@ namespace "build" do
   task :single, [:target] do |t, args|
     unless args.target
       puts "Invalid target!"
-      puts ""
+      puts
       puts "Usage:"
-      puts "# rake #{t}[:my_target]"
-      puts ""
+      puts "# rake #{t}[my_target]"
+      puts
       puts "The file my_target.{coffee,js} must exist in #{src_dir}. It may contain sprocket directives //= require foo"
+      puts
+      exit
     end
 
     input = filename(args.target)
