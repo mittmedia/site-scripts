@@ -8,6 +8,12 @@ src_dir = "src"
 environment = Sprockets::Environment.new
 environment.append_path src_dir
 
+def filename(file)
+  basename = File.basename(file) # target single needs xy.js, not src/xy.js
+  basename.chomp!(".coffee")
+  basename.chomp!(".js")
+end
+
 namespace "build" do
   desc "Build a single target in directory #{src_dir}"
   task :single, [:target] do |t, args|
@@ -17,12 +23,9 @@ namespace "build" do
       puts "Usage:"
       puts "# rake #{t}[:my_target]"
       puts ""
-      puts "The file my_target.js must exist in #{src_dir}. It may contain sprocket directives //= require foo"
+      puts "The file my_target.{coffee,js} must exist in #{src_dir}. It may contain sprocket directives //= require foo"
     end
 
-    # input might be .js.coffee
-    # input might be .js
-    # input might be .coffee
     input = args.target
     output = File.join(build_dir, "#{input}.js")
 
@@ -38,7 +41,7 @@ namespace "build" do
     path = File.join(src_dir, "*.{coffee,js}")
 
     Dir.glob(path) do |file|
-      target = File.basename(file) # target single needs xy.js, not src/xy.js
+      target = filename(file)
       Rake::Task["build:single"].reenable
       Rake::Task["build:single"].invoke target
     end
