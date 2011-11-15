@@ -1,5 +1,8 @@
-require "sprockets"
-require "uglifier"
+#!/usr/bin/env ruby
+# encoding: UTF-8
+require 'rubygems'
+require 'bundler'
+Bundler.require
 
 task :default => "build:all"
 
