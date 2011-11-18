@@ -1,5 +1,7 @@
 //= require_tree "./vendor"
-//= require_tree "./lib"
+//= require "./lib/client.js"
+//= require "./lib/mittmedia.js"
+//= require "./lib/json.js"
 
 var local_generateAdaptLogicZone = function(department)
 {

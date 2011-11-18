@@ -90,29 +90,8 @@ var mm_processUrl = function()
 var inArray = function(a,v){ for(var i=0, ln=a.length; i<ln; i++) { if(a[i] == v) return true; } return false; };
 var regexInArray = function(arr,str) { for(var i=0,ln=arr.length;i<ln;i++) { var regex = new RegExp(arr[i]); if( str.match(regex) ) return true; } return false; }
 
-/* Ta reda på skärmhöjd och bredd */
-var getClientHeight = function() { return document.compatMode=='CSS1Compat' && !window.opera?document.documentElement.clientHeight:document.body.clientHeight; };
-var getClientWidth = function() { return document.compatMode=='CSS1Compat' && !window.opera?document.documentElement.clientWidth:document.body.clientWidth; };
 
-/* Ta reda på scrollbarens y-position */
-var getScrollY = function() {
-  var scrOfY = 0;
-  if( typeof( window.pageYOffset ) == 'number' ) { scrOfY = window.pageYOffset; }
-  else if( document.body && document.body.scrollTop ) { scrOfY = document.body.scrollTop; }
-  else if( document.documentElement && document.documentElement.scrollTop ) { scrOfY = document.documentElement.scrollTop; }
-  return scrOfY;
-};
 
-var getScrollXY = function() {
-  var scrOfX = 0, scrOfY = 0;
-  if( typeof( window.pageYOffset ) == 'number' ) { scrOfY = window.pageYOffset; scrOfX = window.pageXOffset; }
-  else if( document.body && ( document.body.scrollLeft || document.body.scrollTop ) ) { scrOfY = document.body.scrollTop; scrOfX = document.body.scrollLeft; }
-  else if( document.documentElement && ( document.documentElement.scrollLeft || document.documentElement.scrollTop ) ) {
-	scrOfY = document.documentElement.scrollTop;
-    scrOfX = document.documentElement.scrollLeft;
-  }
-  return [ scrOfX, scrOfY ];
-};
 
 /* Hämta en parameter från URL:en */
 var getUrlParam = function(pn){
@@ -143,32 +122,4 @@ var checkIframes = function() {
 /* Ta GET-parameter och stoppa in i iFrame och ladda om denna. Bra för t.ex. OS-sajten */
 var modIframe = function(p,s){var rx=new RegExp(s,"g");if(getUrlParam(p)){var sp=document.getElementById('startpageContainer');if(sp){var aifs=sp.getElementsByTagName('iframe');for(var i in aifs){if(aifs[i].name&&aifs[i].name.match(rx)){aifs[i].src=getUrlParam(p);break;}}}}};
 
-/* Syns elementet i bild? */
-var isScrolledIntoView = function(elem) {
-	if( elem.offsetTop && elem.offsetHeight ) {
-		var a_scroll = getScrollXY();
-		var docViewBottom = a_scroll[1] + getClientHeight();
-		var elemTop = elem.offsetTop;
-		var elemBottom = elemTop + elem.offsetHeight;
-		return ((elemBottom >= a_scroll[1]) && (elemTop <= docViewBottom));
-	}
-	else return false;
-};
 
-/* JSON-funktionalitet */
-JSONscriptRequest.scriptCounter = 1;
-function JSONscriptRequest(fullUrl) {
-    this.fullUrl = fullUrl; 
-    this.noCacheIE = '&noCacheIE=' + (new Date()).getTime();
-    this.headLoc = document.getElementsByTagName("head").item(0);
-    this.scriptId = 'YJscriptId' + JSONscriptRequest.scriptCounter++;
-}
-
-JSONscriptRequest.prototype.buildScriptTag = function () {
-    this.scriptObj = document.createElement("script");
-    this.scriptObj.setAttribute("type", "text/javascript");
-    this.scriptObj.setAttribute("src", this.fullUrl + this.noCacheIE);
-    this.scriptObj.setAttribute("id", this.scriptId);
-}
-JSONscriptRequest.prototype.removeScriptTag = function () { this.headLoc.removeChild(this.scriptObj); };
-JSONscriptRequest.prototype.addScriptTag = function () { this.headLoc.appendChild(this.scriptObj); };
