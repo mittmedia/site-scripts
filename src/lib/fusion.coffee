@@ -2,9 +2,26 @@
 
 @module "paper", ->
   class @Fusion
-  constructor: (@mediazone, @layout, @default_layout = '', @default_mediazone = '') ->
+    constructor: (alias, mediazone, layout, subdomain = null) ->
+      #url = window.location.href
+      url = "http://gd.se/nyheter/hofors/test.html?test=one&something=two"
+      media_zones = @set_media_zones(url, 'mkt', alias, subdomain)
     
-###
+    set_media_zones: (url, zones...) ->
+      # remove zones that are null
+      zones = zones.filter (zone) -> zone?
+      # remove protocol and querystring from url, and split into pieces
+      url_pieces = url.split("://").pop().split("?").shift().split("/")
+      #remove domain name 
+      url_pieces.shift() if url_pieces.length > 1
+      # remove last path piece if it contains a dot (like "something.html")
+      url_pieces.pop() if url_pieces[url_pieces.length - 1].indexOf(".") >= 0
+
+      return zones.concat(url_pieces).join(".")
+      
+      
+
+###      
 if( !window.Fusion.adServer )
 {
 	var fusion_testmode = getUrlParam('fusion_testmode');

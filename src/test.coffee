@@ -1,4 +1,4 @@
-//= require_tree "./lib/"
+//= require "./lib/fusion"
 
-new @paper.google.Analytics('UA-XXXXX')
-new @paper.Fusion('nyheter.ettan', 'op_1')
+#new @paper.google.Analytics('UA-XXXXX')
+new @paper.Fusion('gdse', 'nyheter.ettan', 'op_1')
