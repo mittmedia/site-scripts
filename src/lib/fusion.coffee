@@ -2,15 +2,10 @@
 
 @module "paper", ->
   class @Fusion
-    constructor: (base_zone, default_zone, layouts, default_layout, subdomain = null) ->
-      #path = window.location.pathname
-      #path = "/"
-      path = "/nyheter/hofors/test.html"
+    constructor: (path, base_zone, default_zone, layouts, default_layout, subdomain = null) ->
       media_zone_path = @get_media_zone_path(path, default_zone)
       @media_zone = @get_media_zone(media_zone_path, [base_zone, subdomain], default_zone)
       @layout = @get_layout(media_zone_path, layouts, default_layout)
-      #console.log media_zone
-      #console.log layout
       
     get_media_zone_path: (path, default_zone) ->
       pieces = path.split("/")
@@ -31,7 +26,7 @@
     get_layout: (zone_path, layouts, default_layout) ->
       layouts[zone_path] ||= default_layout
     
-    setup_environment: (media_zone, layout) ->
+    setup_environment: (media_zone = @media_zone, layout = @layout) ->
       window.Fusion.adServer = "fusion.adtoma.com"
       window.Fusion.mediaZone = media_zone
       window.Fusion.layout = layout
