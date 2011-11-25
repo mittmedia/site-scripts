@@ -2,27 +2,42 @@
 
 @module "paper", ->
   class @Fusion
-    constructor: (alias, layout, default_zone, subdomain = null) ->
-      #url = window.location.href
-      #url = "http://gd.se"
-      url = "http://gd.se/nyheter/hofors/test.html?test=one&something=two"
-      media_zone = @get_media_zone(url, ['mkt', alias, subdomain], default_zone)
+    constructor: (base_zone, default_zone, layouts, default_layout, subdomain = null) ->
+      #path = window.location.pathname
+      #path = "/"
+      path = "/nyheter/hofors/test.html"
+      media_zone_path = @get_media_zone_path(path, default_zone)
+      @media_zone = @get_media_zone(media_zone_path, [base_zone, subdomain], default_zone)
+      @layout = @get_layout(media_zone_path, layouts, default_layout)
+      #console.log media_zone
+      #console.log layout
+      
+    get_media_zone_path: (path, default_zone) ->
+      pieces = path.split("/")
+      # remove empty pieces from extra slashes
+      pieces = pieces.filter (piece) -> piece != ""
+      # remove last path piece if it contains a dot (like "something.html")
+      pieces.pop() if pieces.length > 0 and pieces[pieces.length - 1].indexOf(".") >= 0
+      # use default zone if none
+      pieces.push(default_zone) if pieces.length == 0
+      return pieces.join(".")
     
-    get_media_zone: (url, zones, default_zone) ->
+    get_media_zone: (zone_path, zones, default_zone) ->
       # remove zones that are null
       zones = zones.filter (zone) -> zone? and zone != ""
-      # remove protocol and querystring from url, and split into path pieces
-      url_pieces = url.split("://").pop().split("?").shift().split("/")
-      # remove empty piece from trailing slash
-      url_pieces = url_pieces.filter (piece) -> piece != ""
-      #remove domain name 
-      url_pieces.shift()
-      # remove last path piece if it contains a dot (like "something.html")
-      url_pieces.pop() if url_pieces.length > 0 and url_pieces[url_pieces.length - 1].indexOf(".") >= 0
-      # use default zone if none
-      url_pieces.push(default_zone) if url_pieces.length == 0
       # return arrays joined with a dot
-      return zones.concat(url_pieces).join(".")
+      return zones.concat(zone_path).join(".")
+    
+    get_layout: (zone_path, layouts, default_layout) ->
+      layouts[zone_path] ||= default_layout
+    
+    setup_environment: (media_zone, layout) ->
+      window.Fusion.adServer = "fusion.adtoma.com"
+      window.Fusion.mediaZone = media_zone
+      window.Fusion.layout = layout
+      window.Fusion.parameters["url_path"] = window.location.pathname
+      window.Fusion.parameters["url"] = window.location.href
+      window.Fusion.loadAds()
 
 
 ###      
