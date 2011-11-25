@@ -2,24 +2,28 @@
 
 @module "paper", ->
   class @Fusion
-    constructor: (alias, mediazone, layout, subdomain = null) ->
+    constructor: (alias, layout, default_zone, subdomain = null) ->
       #url = window.location.href
+      #url = "http://gd.se"
       url = "http://gd.se/nyheter/hofors/test.html?test=one&something=two"
-      media_zones = @set_media_zones(url, 'mkt', alias, subdomain)
+      media_zone = @get_media_zone(url, ['mkt', alias, subdomain], default_zone)
     
-    set_media_zones: (url, zones...) ->
+    get_media_zone: (url, zones, default_zone) ->
       # remove zones that are null
-      zones = zones.filter (zone) -> zone?
-      # remove protocol and querystring from url, and split into pieces
+      zones = zones.filter (zone) -> zone? and zone != ""
+      # remove protocol and querystring from url, and split into path pieces
       url_pieces = url.split("://").pop().split("?").shift().split("/")
+      # remove empty piece from trailing slash
+      url_pieces = url_pieces.filter (piece) -> piece != ""
       #remove domain name 
-      url_pieces.shift() if url_pieces.length > 1
+      url_pieces.shift()
       # remove last path piece if it contains a dot (like "something.html")
-      url_pieces.pop() if url_pieces[url_pieces.length - 1].indexOf(".") >= 0
-
+      url_pieces.pop() if url_pieces.length > 0 and url_pieces[url_pieces.length - 1].indexOf(".") >= 0
+      # use default zone if none
+      url_pieces.push(default_zone) if url_pieces.length == 0
+      # return arrays joined with a dot
       return zones.concat(url_pieces).join(".")
-      
-      
+
 
 ###      
 if( !window.Fusion.adServer )
