@@ -24,7 +24,7 @@
       return zones.concat(zone_path).join(".")
     
     get_layout: (zone_path, layouts, default_layout) ->
-      layouts[zone_path] ||= default_layout
+      layouts[zone_path] || default_layout
     
     setup_environment: (media_zone = @media_zone, layout = @layout) ->
       window.Fusion.adServer = "fusion.adtoma.com"
