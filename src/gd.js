@@ -8,12 +8,13 @@ var local_generateAdaptLogicZone = function(department)
 	/* nyheter,sport,noje,ekonomi,familj,resor,bostad,motor,mat-dryck */
 	switch(department)
 	{
-		case 'kulturnoje': return 'noje';
-		case 'slaktvanner': return 'familj';
-		case 'ekonomi': return 'ekonomi';	
+		case 'noje': return 'noje';
+		case 'folkfamilj': return 'familj';
+		case 'jobbpengar': return 'ekonomi';	
 		case 'motor': return 'motor';
+		case 'byggabo': return 'bostad';
 		case 'resor': return 'resor';
-		case 'bostad': return 'bostad';
+		case 'mat': return 'mat-dryck';
 		default: return 'nyheter';
 	}
 };
@@ -23,15 +24,15 @@ var local_domReady = function() { };
 if( !mm_currentSite )
 {
 	mm_currentSite = new mm_siteObject({
-			'alias' : 'opse',
-			'googleAnalyticsId' : 'UA-10825541-1',
+			'alias' : 'gdse',
+			'googleAnalyticsId' : 'UA-5478996-1',
 			'specialDomainName' : 'none',
 			'subdomain' : '',
-			'defaultFusionMediaZone' : 'nyheter.ettan',
-			'defaultFusionLayout' : 'ot_1',
+			'defaultFusionMediaZone' : 'nyheter',
+			'defaultFusionLayout' : 'gdarb_1',
 			'fusionMediaZone' : '',
 			'fusionLayouts' : '',
-			'adaptLogicAlias' : 'ostersundsposten',
+			'adaptLogicAlias' : 'gavletidningar',
 			'adaptLogicZone' : '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
 			'onDomReady' : local_domReady

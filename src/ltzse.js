@@ -8,11 +8,10 @@ var local_generateAdaptLogicZone = function(department)
 	/* nyheter,sport,noje,ekonomi,familj,resor,bostad,motor,mat-dryck */
 	switch(department)
 	{
-		case 'kulturnoje': return 'noje';
+		case 'noje': return 'noje';
 		case 'slaktvanner': return 'familj';
-		case 'ekonomi': return 'ekonomi';	
+		case 'ekonominyheter': return 'ekonomi';	
 		case 'motor': return 'motor';
-		case 'resor': return 'resor';
 		case 'bostad': return 'bostad';
 		default: return 'nyheter';
 	}
@@ -23,15 +22,15 @@ var local_domReady = function() { };
 if( !mm_currentSite )
 {
 	mm_currentSite = new mm_siteObject({
-			'alias' : 'opse',
-			'googleAnalyticsId' : 'UA-10825541-1',
+			'alias' : 'ltzse',
+			'googleAnalyticsId' : '',
 			'specialDomainName' : 'none',
 			'subdomain' : '',
-			'defaultFusionMediaZone' : 'nyheter.ettan',
+			'defaultFusionMediaZone' : 'nyheter.allt',
 			'defaultFusionLayout' : 'ot_1',
 			'fusionMediaZone' : '',
 			'fusionLayouts' : '',
-			'adaptLogicAlias' : 'ostersundsposten',
+			'adaptLogicAlias' : 'ltz',
 			'adaptLogicZone' : '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
 			'onDomReady' : local_domReady
