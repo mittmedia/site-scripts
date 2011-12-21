@@ -7,7 +7,7 @@ document.observe("dom:loaded",function()
 {
 	if( mm_currentSite.onDomReady ) { mm_currentSite.onDomReady(); }
 	
-	setTimeout("checkIframes()", 2000);
+	//setTimeout("checkIframes()", 2000);
 });
 
 function mm_siteObject(args)
