@@ -90,9 +90,6 @@ var mm_processUrl = function()
 var inArray = function(a,v){ for(var i=0, ln=a.length; i<ln; i++) { if(a[i] == v) return true; } return false; };
 var regexInArray = function(arr,str) { for(var i=0,ln=arr.length;i<ln;i++) { var regex = new RegExp(arr[i]); if( str.match(regex) ) return true; } return false; }
 
-
-
-
 /* Hämta en parameter från URL:en */
 var getUrlParam = function(pn){
 	var strReturn = ""; var strHref = window.location.href;
