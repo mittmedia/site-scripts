@@ -27,6 +27,9 @@ if( !mm_currentSite )
 			'fusionLayouts' : '',
 			'adaptLogicAlias' : 'ostersundsposten',
 			'adaptLogicZone' : '',
+			'admetaMediaZone': '',
+			'admetaAlias': '',
+			'admetaSpaceMap': '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
 			'onDomReady' : local_domReady
 			});

@@ -33,6 +33,9 @@ if( !mm_currentSite )
 			'fusionLayouts' : '',
 			'adaptLogicAlias' : 'sundsvallstidning',
 			'adaptLogicZone' : '',
+			'admetaMediaZone': '',
+			'admetaAlias': '',
+			'admetaSpaceMap': '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
 			'onDomReady' : local_domReady
 			});

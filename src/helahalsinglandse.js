@@ -33,6 +33,9 @@ if( !mm_currentSite )
 			'adaptLogicAlias' : 'helahalsingland',
 			'adaptLogicZone' : '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
+			'admetaMediaZone': '',
+			'admetaAlias': '',
+			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady
 			});
 }

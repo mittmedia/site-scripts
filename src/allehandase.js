@@ -32,6 +32,9 @@ if( !mm_currentSite )
 			'adaptLogicAlias' : 'allehanda',
 			'adaptLogicZone' : '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
+			'admetaMediaZone': '',
+			'admetaAlias': '',
+			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady
 			});
 }

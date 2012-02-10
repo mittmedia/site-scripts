@@ -1,5 +1,6 @@
 ﻿var _gaq = _gaq || [];
 var mm_currentSite;
+var ADM_PL;
 
 if( document.getElementById('fusion_layoutExceptions') ) { eval(document.getElementById('fusion_layoutExceptions').innerHTML); }
 
@@ -48,6 +49,10 @@ function mm_siteObject(args)
 			
 			window.Fusion.adServer = "fusion.adtoma.com";
 			window.Fusion.mediaZone = (fusion_testmode) ? ((getUrlParam('mediazone'))?getUrlParam('mediazone'):this.fusionMediaZone) : this.fusionMediaZone;
+			
+			//Remove hash-tags if there are any
+			window.Fusion.mediaZone = window.Fusion.mediaZone.split("#",1)[0];
+			
 			window.Fusion.layout = (fusion_testmode) ? ((getUrlParam('layout'))?getUrlParam('layout'):layout) : layout;
 			window.Fusion.parameters["url_path"] = self.location.pathname;
 			window.Fusion.parameters["url"] = self.location.href;
@@ -55,6 +60,57 @@ function mm_siteObject(args)
 			if( fusion_testmode ) { console.log(window.Fusion.mediaZone+"\n"+window.Fusion.layout); }
 			
 			this.setupAdaptLogicVariables(a_mediaZone[2]);
+			
+			this.admetaMediaZone = window.Fusion.mediaZone.replace("mkt." + a_mediaZone[1] + ".", "");
+			this.admetaMediaZone = this.admetaMediaZone.replace(/\.\d\.\d+[^_]*/g, '');
+			
+			this.admetaAlias = a_mediaZone[1];
+			
+			this.admetaSpaceMap = new Array();
+			
+			this.admetaSpaceMap["ad_tester"] = {width: 1, height: 1};
+			
+			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600};
+			
+			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120};
+			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120};
+			
+			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240};
+			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240};
+			
+			this.admetaSpaceMap["ad_250x250_1"] = {width: 250, height: 360};			
+			this.admetaSpaceMap["ad_250x250_2"] = {width: 250, height: 360};
+			this.admetaSpaceMap["ad_250x250_3"] = {width: 250, height: 360};
+			this.admetaSpaceMap["ad_250x250_4"] = {width: 250, height: 360};
+						
+			this.admetaSpaceMap["ad_468x300_1"] = {width: 468, height: 220};		
+			this.admetaSpaceMap["ad_468x300_2"] = {width: 468, height: 220};
+			this.admetaSpaceMap["ad_468x300_3"] = {width: 468, height: 220};
+			this.admetaSpaceMap["ad_468x300_4"] = {width: 468, height: 220};
+			this.admetaSpaceMap["ad_468x300_5"] = {width: 468, height: 220};
+			
+			this.admetaSpaceMap["ad_250x800"] = {width: 250, height: 360};
+			
+			this.admetaSpaceMap["ad_250x500"] = {width: 250, height: 360};
+			
+			this.admetaSpaceMap["ad_200x220_1"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_2"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_3"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_4"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_5"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_6"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_200x220_7"] = {width: 200, height: 600};			
+			
+			this.admetaSpaceMap["ad_artikel_2"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220};			
+			
+			this.admetaLoadAd = function(FusionSpaceName) {
+				if(this.admetaSpaceMap[FusionSpaceName]) {
+					var ASM = this.admetaSpaceMap[FusionSpaceName]
+					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + FusionSpaceName, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
+					Admeta.processImpressions();
+				}				
+			}			
 		}
 	}
 	
