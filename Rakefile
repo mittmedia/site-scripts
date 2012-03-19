@@ -25,6 +25,33 @@ def progress_bar(&block)
   print "."
 end
 
+namespace "deploy" do
+  desc "Build and deploy to heroku"
+  task :production do
+    
+    #!/usr/bin/ruby -w
+    time = Time.new
+    time = time.strftime("%Y-%m-%d_%H-%M")    
+    
+    if File.directory? './heroku'
+      sh 'cd ./heroku; git stash; git checkout master;'
+      mv './heroku/public/javascripts/older', './heroku/older/'
+      rmtree './heroku/public/javascripts/older'
+      mv './heroku/public/javascripts', './heroku/older/' + time
+      rmtree './heroku/public'
+      cp_r './build', './heroku/'
+      mkdir './heroku/public'
+      mkdir './heroku/public/images'
+      mkdir './heroku/public/stylesheets/'
+      mv './heroku/build', './heroku/public/javascripts'
+      mv './heroku/older', './heroku/public/javascripts/older/'
+      # sh 'cd ./heroku; git add -A .; git commit -m "automatic push to heroku"; git push heroku master -f'
+    else
+      print "No such dir: 'heroku"
+    end
+  end
+end
+
 namespace "build" do
   desc "Build a single target in directory '#{src_dir}'"
   task :single, [:target] do |t, args|
@@ -69,6 +96,9 @@ namespace "build" do
 
   desc "Build all targets in directory '#{src_dir}'"
   task :all do
+    puts "Deploy to production? (y/n)"
+    prompt = $stdin.gets.chomp
+    
     path = File.join(src_dir, "*.{coffee,js}")
 
     Dir.glob(path) do |file|
@@ -76,6 +106,9 @@ namespace "build" do
       Rake::Task["build:single"].reenable
       Rake::Task["build:single"].invoke target
     end
+    if prompt == "y" || prompt == "yes" || prompt == "Y"
+      Rake::Task["deploy:production"].invoke(:all)
+    end   
   end
 end
 
