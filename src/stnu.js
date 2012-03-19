@@ -37,7 +37,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
-			'onDomReady' : local_domReady
+			'onDomReady' : local_domReady,
+			'servicefinderId' : 8
 			});
 }
 
