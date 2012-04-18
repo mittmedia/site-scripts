@@ -104,15 +104,27 @@ function mm_siteObject(args)
 			this.admetaSpaceMap["ad_artikel_2"] = {width: 200, height: 600};
 			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220};			
 			
-			this.admetaLoadAd = function(FusionSpaceName) {
-				if(this.admetaSpaceMap[FusionSpaceName]) {
-					var ASM = this.admetaSpaceMap[FusionSpaceName]
-					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + FusionSpaceName, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
+			this.admetaLoadAd = function(fusion_space_name) {
+				if(this.admetaSpaceMap[fusion_space_name]) {
+					var ASM = this.admetaSpaceMap[fusion_space_name];
+					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
 					Admeta.processImpressions();
+				}				
+			}
+			
+			this.admetaLoadAdAsync = function(fusion_space_name, fusion_space_id) {
+				if(this.admetaSpaceMap[fusion_space_name]) {
+					var ASM = this.admetaSpaceMap[fusion_space_name];
+					ADM_PL = {tagId: fusion_space_id, tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
+					Admeta=window.Admeta||{};
+					Admeta.aTags=Admeta.aTags||[];
+					Admeta.aTags.push(ADM_PL);
+					Admeta.processImpressions();					
 				}				
 			}			
 		}
 	}
+	
 	
 	this.setupAdaptLogicVariables = function(department)
 	{
@@ -163,14 +175,37 @@ var getUrlParam = function(pn){
 	return unescape(strReturn);
 };
 
-/* Fredrik Sundströms iFrame-fix */
-var checkIframes = function() {
-	$$('#lookIframe').each(function(ifrm) { ifrm.src = ifrm.src; ifrm.style.display = "block"; });
-	$$('#articleContainer iframe').each(function(ifrm) { ifrm.src = ifrm.src; ifrm.style.display = "block"; });
-	$$('iframe.webClipIframe').each(function(ifrm) { ifrm.src = ifrm.src; ifrm.style.display = "block"; });
-	$$('iframe.iframefix').each(function(ifrm) { ifrm.src = ifrm.src; ifrm.style.display = "block"; });
-	$$('.iframefix iframe').each(function(ifrm) { ifrm.src = ifrm.src; ifrm.style.display = "block"; });
-};
+
+function appendServicefinderIframe(imgNode,width,height,mainWrapperWidth)
+{
+	if( mm_currentSite && mm_currentSite.servicefinderId )
+	{
+		var inlineCss = "<style type=\"text/css\" media=\"all\">\n#AttentionTeaserWrapper { width:"+width+"px !important; }\n";
+		if( mainWrapperWidth ) {
+			inlineCss += "\n.column.mainContainer { width:"+mainWrapperWidth+"px; }\n";
+		}
+		inlineCss += "</style>\n";
+		
+		var cssNode = document.createElement('span');
+		cssNode.innerHTML = inlineCss;
+		imgNode.parentNode.insertBefore(cssNode,imgNode);
+		
+		var sf_url = "http://www.servicefinder.se/partner/stampen/"+mm_currentSite.servicefinderId;
+		var url = window.location.href;
+		
+		if( url.match(/(categoryid\=)+([0-9])/gi) )
+		{
+			var a_sub = url.split('categoryid=');
+			sf_url += '/kategori/'+a_sub[a_sub.length-1];	
+		}
+		
+		var spanNode = document.createElement('span');
+		spanNode.innerHTML = '<iframe name="servicefinder" src="'+sf_url+'" width="'+width+'" scrolling="no" height="'+height+'" frameborder="0"></iframe>';
+		imgNode.parentNode.insertBefore(spanNode,imgNode);
+		
+	}
+}
+
 
 /* Ta GET-parameter och stoppa in i iFrame och ladda om denna. Bra för t.ex. OS-sajten */
 var modIframe = function(p,s){var rx=new RegExp(s,"g");if(getUrlParam(p)){var sp=document.getElementById('startpageContainer');if(sp){var aifs=sp.getElementsByTagName('iframe');for(var i in aifs){if(aifs[i].name&&aifs[i].name.match(rx)){aifs[i].src=getUrlParam(p);break;}}}}};

@@ -45,7 +45,7 @@ namespace "deploy" do
       mkdir './heroku/public/stylesheets/'
       mv './heroku/build', './heroku/public/javascripts'
       mv './heroku/older', './heroku/public/javascripts/older/'
-      # sh 'cd ./heroku; git add -A .; git commit -m "automatic push to heroku"; git push heroku master -f'
+       sh 'cd ./heroku; git add -A .; git commit -m "automatic push to heroku"; git push heroku master -f'
     else
       print "No such dir: 'heroku"
     end
