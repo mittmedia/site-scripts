@@ -2,6 +2,16 @@
 var mm_currentSite;
 var ADM_PL;
 
+function recordOutboundLink(link, category, action) {
+  try {
+    var myTracker=_gat._getTrackerByName();
+    _mm_gaq.push(['myTracker._trackEvent', category ,  action ]);
+    setTimeout('document.location = "' + link.href + '"', 100)
+  }catch(err){}
+}
+ 
+var _mm_gaq = _mm_gaq || [];
+
 if( document.getElementById('fusion_layoutExceptions') ) { eval(document.getElementById('fusion_layoutExceptions').innerHTML); }
 
 document.observe("dom:loaded",function()
@@ -19,7 +29,20 @@ function mm_siteObject(args)
 		if( this.specialDomainName.length > 2 ) { _gaq.push(['_setDomainName', this.specialDomainName]); }
 		_gaq.push(['_trackPageview']);
 		_gaq.push(['_trackPageLoadTime']);
-
+		
+		
+		// Second tracker
+		_mm_gaq.push(["_setAccount",'UA-31522926-1']);
+		if( this.specialDomainName.length > 2 ) { 
+			_mm_gaq.push(["_setDomainName",this.specialDomainName]); 
+		}
+		_mm_gaq.push(['_setAllowLinker', true]);
+		_mm_gaq.push(["_trackPageview"]);
+		
+		
+		console.log(_gaq);
+		console.log(_mm_gaq);
+		
 		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
@@ -68,46 +91,48 @@ function mm_siteObject(args)
 			
 			this.admetaSpaceMap = new Array();
 			
-			this.admetaSpaceMap["ad_tester"] = {width: 1, height: 1};
+			this.admetaSpaceMap["ad_tester"] = {width: 1, height: 1, rank: 1};
 			
-			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600};
+			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600, rank: 1};
 			
-			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120};
-			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120};
+			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
+			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
 			
-			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240};
-			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240};
+			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240, rank: 1};
+			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240, rank: 2};
 			
-			this.admetaSpaceMap["ad_250x250_1"] = {width: 250, height: 360};			
-			this.admetaSpaceMap["ad_250x250_2"] = {width: 250, height: 360};
-			this.admetaSpaceMap["ad_250x250_3"] = {width: 250, height: 360};
-			this.admetaSpaceMap["ad_250x250_4"] = {width: 250, height: 360};
+			this.admetaSpaceMap["ad_250x250_1"] = {width: 250, height: 360, rank: 1};			
+			this.admetaSpaceMap["ad_250x250_2"] = {width: 250, height: 360, rank: 2};
+			this.admetaSpaceMap["ad_250x250_3"] = {width: 250, height: 360, rank: 3};
+			this.admetaSpaceMap["ad_250x250_4"] = {width: 250, height: 360, rank: 4};
+			
+			this.admetaSpaceMap["ad_250x800"] = {width: 250, height: 360, rank: 5};
+			
+			this.admetaSpaceMap["ad_250x500"] = {width: 250, height: 360, rank: 6};
 						
-			this.admetaSpaceMap["ad_468x300_1"] = {width: 468, height: 220};		
-			this.admetaSpaceMap["ad_468x300_2"] = {width: 468, height: 220};
-			this.admetaSpaceMap["ad_468x300_3"] = {width: 468, height: 220};
-			this.admetaSpaceMap["ad_468x300_4"] = {width: 468, height: 220};
-			this.admetaSpaceMap["ad_468x300_5"] = {width: 468, height: 220};
+			this.admetaSpaceMap["ad_468x300_1"] = {width: 468, height: 220, rank: 1};		
+			this.admetaSpaceMap["ad_468x300_2"] = {width: 468, height: 220, rank: 2};
+			this.admetaSpaceMap["ad_468x300_3"] = {width: 468, height: 220, rank: 3};
+			this.admetaSpaceMap["ad_468x300_4"] = {width: 468, height: 220, rank: 4};
+			this.admetaSpaceMap["ad_468x300_5"] = {width: 468, height: 220, rank: 5};
 			
-			this.admetaSpaceMap["ad_250x800"] = {width: 250, height: 360};
+
 			
-			this.admetaSpaceMap["ad_250x500"] = {width: 250, height: 360};
+			this.admetaSpaceMap["ad_200x220_1"] = {width: 200, height: 600, rank: 1};
+			this.admetaSpaceMap["ad_200x220_2"] = {width: 200, height: 600, rank: 2};
+			this.admetaSpaceMap["ad_200x220_3"] = {width: 200, height: 600, rank: 3};
+			this.admetaSpaceMap["ad_200x220_4"] = {width: 200, height: 600, rank: 4};
+			this.admetaSpaceMap["ad_200x220_5"] = {width: 200, height: 600, rank: 5};
+			this.admetaSpaceMap["ad_200x220_6"] = {width: 200, height: 600, rank: 6};
+			this.admetaSpaceMap["ad_200x220_7"] = {width: 200, height: 600, rank: 7};			
 			
-			this.admetaSpaceMap["ad_200x220_1"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_2"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_3"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_4"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_5"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_6"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_200x220_7"] = {width: 200, height: 600};			
-			
-			this.admetaSpaceMap["ad_artikel_2"] = {width: 200, height: 600};
-			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220};			
+			this.admetaSpaceMap["ad_artikel_2"] = {width: 200, height: 600, rank: 1};
+			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220, rank: 1};			
 			
 			this.admetaLoadAd = function(fusion_space_name) {
 				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
-					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
+					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank, clk:'[External click-tracking here]'}
 					Admeta.processImpressions();
 				}				
 			}
@@ -115,13 +140,41 @@ function mm_siteObject(args)
 			this.admetaLoadAdAsync = function(fusion_space_name, fusion_space_id) {
 				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
-					ADM_PL = {tagId: fusion_space_id, tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:1, clk:'[External click-tracking here]'}
-					Admeta=window.Admeta||{};
-					Admeta.aTags=Admeta.aTags||[];
-					Admeta.aTags.push(ADM_PL);
-					Admeta.processImpressions();					
+					ADM_PL = {tagId: fusion_space_id, pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank, clk:'[External click-tracking here]'}
+					window._Admeta=window._Admeta||{};
+					(function(){
+						window._Admeta.aTags=window._Admeta.aTags||[];
+						window._Admeta.aTags.push(ADM_PL);
+						if(window.Admeta&&window.Admeta.processAsync) window.Admeta.processAsync();
+						else if(window._Admeta.aTags.length==1){
+							window.ajs=document.createElement("script");
+							ajs.async = true;
+							ajs.type = "text/javascript";
+							ajs.src = "http://s.atemda.com/Admeta.js";
+							window.node=document.getElementsByTagName("script")[0];
+							node.parentNode.insertBefore(ajs, node);
+						}
+					})();			
 				}				
-			}			
+			}	
+			/*
+			this.admetaLoadAdAsync_OLD = function(fusion_space_name, fusion_space_id) {
+				if(this.admetaSpaceMap[fusion_space_name]) {
+					var ASM = this.admetaSpaceMap[fusion_space_name];
+					ADM_PL = {tagId: fusion_space_id, tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank , clk:'[External click-tracking here]'}
+					Admeta=window.Admeta||{}; 
+					(function(){ 
+					  Admeta.aTags=Admeta.aTags||[];
+					  Admeta.aTags.push(ADM_PL);
+					  ajs=document.createElement("script");
+					  ajs.async = true;
+					  ajs.type = "text/javascript";
+					  ajs.src = "http://s.atemda.com/Admeta.js";
+					  window.node=document.getElementsByTagName("script")[0];
+					  node.parentNode.insertBefore(ajs, node);
+					})();			
+				}				
+			}	*/	
 		}
 	}
 	
