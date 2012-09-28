@@ -40,3 +40,8 @@ Följande rubygems måste finnas installerade:
     * 'servicefinderId': 11, `Servicefinder id`
     * 'flygresorXml': 'http://gd.se/polopoly_fs/1.4690142!flygresor_gt.xml', `Används enbart på resevertikalen av inline-script`
     * 'charterXml': 'http://gd.se/polopoly_fs/1.4690894!charter.xml' `Används enbart på resevertikalen av inline-script`
+
+  * Viktiga funktioner i huvudscriptet src/lib/mittmedia.js (eftersom radnummer tenderar att ändras är det enklast att söka efter funktionsnamnet)
+    * registerGoogleAnalytics `Instansierar TVÅ analyticskonton, varav det hårdkodade är den gemensamma mätningen för hela Mittmedia`
+    * setupAdVariables `Kopplar Fusion till sajten. Sakapar mediazon, start Fusion och förser Admeta med rätt annonstyper`
+    * admetaLoadAdAsync `Laddar Adbid-annonser asynkront. Admeta har byggt denna. admeta@support.se`
