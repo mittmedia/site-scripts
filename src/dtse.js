@@ -36,7 +36,9 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 7
+			'servicefinderId' : 7,
+			'flygresorXml': 'http://www.dt.se/polopoly_fs/1.4710905!flygresorse.xml',
+			'charterXml' : 'http://www.dt.se/polopoly_fs/1.4695775!/charter.xml'
 			});
 }
 

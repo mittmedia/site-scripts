@@ -38,7 +38,9 @@ if( !mm_currentSite )
 			'admetaSpaceMap': '',
 			'generateAdaptLogicZone' : local_generateAdaptLogicZone,
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 8
+			'servicefinderId' : 8,
+			'flygresorXml': 'http://st.nu/polopoly_fs/1.4719391!/flygresor_st.xml',
+			'charterXml' : 'http://st.nu/polopoly_fs/1.4719422!charter.xml'
 			});
 }
 

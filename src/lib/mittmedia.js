@@ -5,11 +5,12 @@ var ADM_PL;
 function recordOutboundLink(link, category, action) {
   try {
     var myTracker=_gat._getTrackerByName();
-    _mm_gaq.push(['myTracker._trackEvent', category ,  action ]);
+		_gaq.push(['b._trackEvent', category ,  action, window.location.href]);
+    _gaq.push(['myTracker._trackEvent', category ,  action, window.location.href]);
     setTimeout('document.location = "' + link.href + '"', 100)
   }catch(err){}
 }
- 
+
 var _mm_gaq = _mm_gaq || [];
 
 if( document.getElementById('fusion_layoutExceptions') ) { eval(document.getElementById('fusion_layoutExceptions').innerHTML); }
@@ -17,7 +18,7 @@ if( document.getElementById('fusion_layoutExceptions') ) { eval(document.getElem
 document.observe("dom:loaded",function()
 {
 	if( mm_currentSite.onDomReady ) { mm_currentSite.onDomReady(); }
-	
+
 	//setTimeout("checkIframes()", 2000);
 });
 
@@ -25,29 +26,41 @@ function mm_siteObject(args)
 {
 	this.registerGoogleAnalytics = function()
 	{
-		_gaq.push(['_setAccount', this.googleAnalyticsId]);
+
+		//_gaq.push(['_setAccount', this.googleAnalyticsId]);
 		if( this.specialDomainName.length > 2 ) { _gaq.push(['_setDomainName', this.specialDomainName]); }
+		_gaq.push(['_setAccount', this.googleAnalyticsId]);
 		_gaq.push(['_trackPageview']);
 		_gaq.push(['_trackPageLoadTime']);
-		
-		
-		// Second tracker
-		_mm_gaq.push(["_setAccount",'UA-31522926-1']);
-		if( this.specialDomainName.length > 2 ) { 
-			_mm_gaq.push(["_setDomainName",this.specialDomainName]); 
+		_gaq.push(['b._setAccount', 'UA-31522926-1']);
+		if( this.specialDomainName.length > 2 ) { _gaq.push(['b._setDomainName', this.specialDomainName]); }
+		_gaq.push(['b._setAllowLinker', true]);
+		_gaq.push(['b._trackPageview']);
+		_gaq.push(['b._trackPageLoadTime']);
+
+
+/*		  ['_setAccount', this.googleAnalyticsId],
+		  ['_trackPageview'],
+			['_trackPageLoadTime'],
+		  ['b._setAccount', 'UA-31522926-1'],
+			['b._setAllowLinker', true],
+		  ['b._setAllowLinker', true]
+		);
+
+		if( this.specialDomainName.length > 2 ) { _gaq.push(['_setDomainName', this.specialDomainName]); }
+
+
+		if( this.specialDomainName.length > 2 ) {
+			_gaq.push(['_setDomainName', this.specialDomainName]);
+			_gaq.push(['b._setDomainName', this.specialDomainName]);
 		}
-		_mm_gaq.push(['_setAllowLinker', true]);
-		_mm_gaq.push(["_trackPageview"]);
-		
-		
-		console.log(_gaq);
-		console.log(_mm_gaq);
-		
+*/
+
 		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	}
-	
+
 	this.setupAdVariables = function()
 	{
 		if( !window.Fusion.adServer )
@@ -56,7 +69,7 @@ function mm_siteObject(args)
 			var a_mediaZone = (this.subdomain) ? new Array('mkt',this.alias,this.subdomain) : new Array('mkt',this.alias);
 			var layout = this.fusionLayouts['standard'];
 			var href = mm_processUrl();
-			
+
 			if( href ) {
 				var a_url = href.split('/');
 				for(var i=0,ln=a_url.length;i<ln;i++) {
@@ -65,78 +78,81 @@ function mm_siteObject(args)
 				}
 			}
 			else { a_mediaZone[a_mediaZone.length+1] = a_mediaZone[a_mediaZone.length] = this.defaultFusionMediaZone; }
-			
+
 			if( this.fusionLayouts[a_mediaZone[3]] ) layout = this.fusionLayouts[a_mediaZone[3]];
-			
+
 			this.fusionMediaZone = a_mediaZone.join('.');
-			
+
 			window.Fusion.adServer = "fusion.adtoma.com";
 			window.Fusion.mediaZone = (fusion_testmode) ? ((getUrlParam('mediazone'))?getUrlParam('mediazone'):this.fusionMediaZone) : this.fusionMediaZone;
-			
+
 			//Remove hash-tags if there are any
 			window.Fusion.mediaZone = window.Fusion.mediaZone.split("#",1)[0];
-			
+
 			window.Fusion.layout = (fusion_testmode) ? ((getUrlParam('layout'))?getUrlParam('layout'):layout) : layout;
 			window.Fusion.parameters["url_path"] = self.location.pathname;
 			window.Fusion.parameters["url"] = self.location.href;
 			window.Fusion.loadAds();
 			if( fusion_testmode ) { console.log(window.Fusion.mediaZone+"\n"+window.Fusion.layout); }
-			
+
 			this.setupAdaptLogicVariables(a_mediaZone[2]);
-			
+
 			this.admetaMediaZone = window.Fusion.mediaZone.replace("mkt." + a_mediaZone[1] + ".", "");
 			this.admetaMediaZone = this.admetaMediaZone.replace(/\.\d\.\d+[^_]*/g, '');
-			
+
 			this.admetaAlias = a_mediaZone[1];
-			
+
 			this.admetaSpaceMap = new Array();
-			
+
 			this.admetaSpaceMap["ad_tester"] = {width: 1, height: 1, rank: 1};
-			
+
 			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600, rank: 1};
-			
+
 			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
 			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
-			
+
 			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240, rank: 1};
 			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240, rank: 2};
-			
-			this.admetaSpaceMap["ad_250x250_1"] = {width: 250, height: 360, rank: 1};			
+
+			this.admetaSpaceMap["ad_250x250_1"] = {width: 250, height: 360, rank: 1};
 			this.admetaSpaceMap["ad_250x250_2"] = {width: 250, height: 360, rank: 2};
 			this.admetaSpaceMap["ad_250x250_3"] = {width: 250, height: 360, rank: 3};
 			this.admetaSpaceMap["ad_250x250_4"] = {width: 250, height: 360, rank: 4};
-			
+
+			this.admetaSpaceMap["dt_ad_250x250_1"] = {width: 250, height: 240, rank: 1};
+			this.admetaSpaceMap["dt_ad_250x250_2"] = {width: 250, height: 240, rank: 2};
+			this.admetaSpaceMap["dt_ad_250x250_3"] = {width: 250, height: 240, rank: 3};
+			this.admetaSpaceMap["dt_ad_250x250_4"] = {width: 250, height: 240, rank: 4};
+
 			this.admetaSpaceMap["ad_250x800"] = {width: 250, height: 360, rank: 5};
-			
+
 			this.admetaSpaceMap["ad_250x500"] = {width: 250, height: 360, rank: 6};
-						
-			this.admetaSpaceMap["ad_468x300_1"] = {width: 468, height: 220, rank: 1};		
+
+			this.admetaSpaceMap["ad_468x300_1"] = {width: 468, height: 220, rank: 1};
 			this.admetaSpaceMap["ad_468x300_2"] = {width: 468, height: 220, rank: 2};
 			this.admetaSpaceMap["ad_468x300_3"] = {width: 468, height: 220, rank: 3};
 			this.admetaSpaceMap["ad_468x300_4"] = {width: 468, height: 220, rank: 4};
 			this.admetaSpaceMap["ad_468x300_5"] = {width: 468, height: 220, rank: 5};
-			
 
-			
 			this.admetaSpaceMap["ad_200x220_1"] = {width: 200, height: 600, rank: 1};
 			this.admetaSpaceMap["ad_200x220_2"] = {width: 200, height: 600, rank: 2};
 			this.admetaSpaceMap["ad_200x220_3"] = {width: 200, height: 600, rank: 3};
 			this.admetaSpaceMap["ad_200x220_4"] = {width: 200, height: 600, rank: 4};
 			this.admetaSpaceMap["ad_200x220_5"] = {width: 200, height: 600, rank: 5};
 			this.admetaSpaceMap["ad_200x220_6"] = {width: 200, height: 600, rank: 6};
-			this.admetaSpaceMap["ad_200x220_7"] = {width: 200, height: 600, rank: 7};			
-			
+			this.admetaSpaceMap["ad_200x220_7"] = {width: 200, height: 600, rank: 7};
+
 			this.admetaSpaceMap["ad_artikel_2"] = {width: 200, height: 600, rank: 1};
-			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220, rank: 1};			
-			
+			this.admetaSpaceMap["ad_artikel_3"] = {width: 468, height: 220, rank: 1};
+
 			this.admetaLoadAd = function(fusion_space_name) {
 				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
 					ADM_PL = {tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank, clk:'[External click-tracking here]'}
 					Admeta.processImpressions();
-				}				
+				}
 			}
-			
+
 			this.admetaLoadAdAsync = function(fusion_space_name, fusion_space_id) {
 				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
@@ -154,16 +170,16 @@ function mm_siteObject(args)
 							window.node=document.getElementsByTagName("script")[0];
 							node.parentNode.insertBefore(ajs, node);
 						}
-					})();			
-				}				
-			}	
+					})();
+				}
+			}
 			/*
 			this.admetaLoadAdAsync_OLD = function(fusion_space_name, fusion_space_id) {
 				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
 					ADM_PL = {tagId: fusion_space_id, tp:'sp', pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank , clk:'[External click-tracking here]'}
-					Admeta=window.Admeta||{}; 
-					(function(){ 
+					Admeta=window.Admeta||{};
+					(function(){
 					  Admeta.aTags=Admeta.aTags||[];
 					  Admeta.aTags.push(ADM_PL);
 					  ajs=document.createElement("script");
@@ -172,13 +188,13 @@ function mm_siteObject(args)
 					  ajs.src = "http://s.atemda.com/Admeta.js";
 					  window.node=document.getElementsByTagName("script")[0];
 					  node.parentNode.insertBefore(ajs, node);
-					})();			
-				}				
-			}	*/	
+					})();
+				}
+			}	*/
 		}
 	}
-	
-	
+
+
 	this.setupAdaptLogicVariables = function(department)
 	{
 		if( department && this.generateAdaptLogicZone && this.adaptLogicAlias )
@@ -192,7 +208,7 @@ function mm_siteObject(args)
 			}
 		}
 	}
-	
+
 	for(var arg in args) { eval("this."+arg+" = args['"+arg+"'];"); }
 	this.fusionLayouts = (fusion_layoutExceptions) ? fusion_layoutExceptions : new Array();
 	this.fusionLayouts['standard'] = this.defaultFusionLayout;
@@ -238,24 +254,24 @@ function appendServicefinderIframe(imgNode,width,height,mainWrapperWidth)
 			inlineCss += "\n.column.mainContainer { width:"+mainWrapperWidth+"px; }\n";
 		}
 		inlineCss += "</style>\n";
-		
+
 		var cssNode = document.createElement('span');
 		cssNode.innerHTML = inlineCss;
 		imgNode.parentNode.insertBefore(cssNode,imgNode);
-		
+
 		var sf_url = "http://www.servicefinder.se/partner/stampen/"+mm_currentSite.servicefinderId;
 		var url = window.location.href;
-		
+
 		if( url.match(/(categoryid\=)+([0-9])/gi) )
 		{
 			var a_sub = url.split('categoryid=');
-			sf_url += '/kategori/'+a_sub[a_sub.length-1];	
+			sf_url += '/kategori/'+a_sub[a_sub.length-1];
 		}
-		
+
 		var spanNode = document.createElement('span');
 		spanNode.innerHTML = '<iframe name="servicefinder" src="'+sf_url+'" width="'+width+'" scrolling="no" height="'+height+'" frameborder="0"></iframe>';
 		imgNode.parentNode.insertBefore(spanNode,imgNode);
-		
+
 	}
 }
 

@@ -39,6 +39,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 11
+			'servicefinderId': 11,
+			'flygresorXml': 'http://gd.se/polopoly_fs/1.4690142!flygresor_gt.xml',
+			'charterXml': 'http://gd.se/polopoly_fs/1.4690894!charter.xml'
 			});
 }

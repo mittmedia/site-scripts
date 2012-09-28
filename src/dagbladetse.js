@@ -35,6 +35,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 15
+			'servicefinderId' : 15,
+			'flygresorXml': 'http://dagbladet.se/polopoly_fs/1.4774247!/flygresor_st.xml',
+			'charterXml' : 'http://dagbladet.se/polopoly_fs/1.4719598!charter.xml'
 			});
 }

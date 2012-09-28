@@ -37,6 +37,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 12
+			'servicefinderId' : 12,
+			'flygresorXml': 'http://helahalsingland.se/polopoly_fs/1.4777017!/flygresor.xml',
+			'charterXml' : 'http://helahalsingland.se/polopoly_fs/1.4720369!charter.xml'
 			});
 }

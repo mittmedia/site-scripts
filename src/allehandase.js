@@ -36,7 +36,9 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 9
+			'servicefinderId' : 9,
+			'flygresorXml': 'http://allehanda.se/polopoly_fs/1.4695779!/flygresor.xml',
+			'charterXml' : 'http://allehanda.se/polopoly_fs/1.4695783!/charter.xml'
 			});
 }
 

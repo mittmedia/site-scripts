@@ -39,6 +39,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 13
+			'servicefinderId' : 13,
+			'flygresorXml': 'http://arbetarbladet.se/polopoly_fs/1.4690200!flygresor_gt.xml',
+			'charterXml': 'http://arbetarbladet.se/polopoly_fs/1.4695613!charter.xml'
 			});
 }

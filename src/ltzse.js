@@ -23,7 +23,7 @@ if( !mm_currentSite )
 {
 	mm_currentSite = new mm_siteObject({
 			'alias' : 'ltzse',
-			'googleAnalyticsId' : '',
+			'googleAnalyticsId' : 'UA-10825589-1',
 			'specialDomainName' : 'none',
 			'subdomain' : '',
 			'defaultFusionMediaZone' : 'nyheter.allt',
@@ -37,6 +37,8 @@ if( !mm_currentSite )
 			'admetaAlias': '',
 			'admetaSpaceMap': '',
 			'onDomReady' : local_domReady,
-			'servicefinderId' : 14
+			'servicefinderId' : 14,
+			'flygresorXml': 'http://ltz.se/polopoly_fs/1.4782402!/flygresor.xml',
+			'charterXml' : 'http://ltz.se/polopoly_fs/1.4730734!/charter.xml'
 			});
 }
