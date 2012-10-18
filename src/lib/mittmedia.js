@@ -80,6 +80,8 @@ function mm_siteObject(args)
 			else { a_mediaZone[a_mediaZone.length+1] = a_mediaZone[a_mediaZone.length] = this.defaultFusionMediaZone; }
 
 			if( this.fusionLayouts[a_mediaZone[3]] ) layout = this.fusionLayouts[a_mediaZone[3]];
+			if( this.fusionLayouts[a_mediaZone[4]] ) layout = this.fusionLayouts[a_mediaZone[4]];
+			if( this.fusionLayouts[a_mediaZone[5]] ) layout = this.fusionLayouts[a_mediaZone[5]];
 
 			this.fusionMediaZone = a_mediaZone.join('.');
 
