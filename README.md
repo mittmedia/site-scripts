@@ -19,6 +19,7 @@ Följande rubygems måste finnas installerade:
   * Kör `rake build:all` för att kompilera samtliga sajtscript till build-katalogen
   * Kör `rake build:single[sajtnamn]` för att kompilera sajtens script till build-katalogen
   * Kör `rake clear:build` för att radera filerna i build-katalogen
+  * Använd FTP för att ladda upp nya script på service.mittmedia.se/misc
 
 ## Innehåll
   * Sajtinställningar - I /src finns det javascript döpta enligt <tidningsnamn>.js i dessa finns alla siteparameters och lokala avvikelser.
