@@ -28,11 +28,11 @@ end
 namespace "deploy" do
   desc "Build and deploy to heroku"
   task :production do
-    
+
     #!/usr/bin/ruby -w
     time = Time.new
-    time = time.strftime("%Y-%m-%d_%H-%M")    
-    
+    time = time.strftime("%Y-%m-%d_%H-%M")
+
     if File.directory? './heroku'
       sh 'cd ./heroku; git stash; git checkout master;'
       mv './heroku/public/javascripts/older', './heroku/older/'
@@ -48,6 +48,23 @@ namespace "deploy" do
        sh 'cd ./heroku; git add -A .; git commit -m "automatic push to heroku"; git push heroku master -f'
     else
       print "No such dir: 'heroku"
+    end
+  end
+end
+
+namespace "backup" do
+  desc "Create backup"
+  task :all do
+
+    #!/usr/bin/ruby -w
+    time = Time.new
+    time = time.strftime("%Y-%m-%d_%H-%M")
+
+    if File.directory? './build'
+      mv './build', './backup/javascript/' + time
+      mkdir './build'
+    else
+      print "No such dir: 'build"
     end
   end
 end
@@ -97,8 +114,10 @@ namespace "build" do
   desc "Build all targets in directory '#{src_dir}'"
   task :all do
     puts "Deploy to production? (y/n)"
-    prompt = $stdin.gets.chomp
-    
+    #prompt = $stdin.gets.chomp
+
+    Rake::Task["backup:all"].invoke(:all)
+
     path = File.join(src_dir, "*.{coffee,js}")
 
     Dir.glob(path) do |file|
@@ -106,9 +125,9 @@ namespace "build" do
       Rake::Task["build:single"].reenable
       Rake::Task["build:single"].invoke target
     end
-    if prompt == "y" || prompt == "yes" || prompt == "Y"
-      Rake::Task["deploy:production"].invoke(:all)
-    end   
+    #if prompt == "y" || prompt == "yes" || prompt == "Y"
+    #  Rake::Task["deploy:production"].invoke(:all)
+    #end
   end
 end
 

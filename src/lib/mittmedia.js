@@ -110,8 +110,8 @@ function mm_siteObject(args)
 
 			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600, rank: 1};
 
-			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
-			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
+			// this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
+			// this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
 
 			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240, rank: 1};
 			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240, rank: 2};
@@ -156,7 +156,7 @@ function mm_siteObject(args)
 			}
 
 			this.admetaLoadAdAsync = function(fusion_space_name, fusion_space_id) {
-				if(this.admetaSpaceMap[fusion_space_name]) {
+				if(this.admetaSpaceMap[fusion_space_name] && window.location.origin.indexOf("http") > -1) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
 					ADM_PL = {tagId: fusion_space_id, pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank, clk:'[External click-tracking here]'}
 					window._Admeta=window._Admeta||{};
