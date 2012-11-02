@@ -85,6 +85,10 @@ function mm_siteObject(args)
 
 			this.fusionMediaZone = a_mediaZone.join('.');
 
+			this.short_media_zone = this.fusionMediaZone.replace("mkt." + a_mediaZone[1] + ".", "");
+
+			if( this.fusionLayouts[this.short_media_zone] ) layout = this.fusionLayouts[this.short_media_zone];
+
 			window.Fusion.adServer = "fusion.adtoma.com";
 			window.Fusion.mediaZone = (fusion_testmode) ? ((getUrlParam('mediazone'))?getUrlParam('mediazone'):this.fusionMediaZone) : this.fusionMediaZone;
 
@@ -99,7 +103,7 @@ function mm_siteObject(args)
 
 			this.setupAdaptLogicVariables(a_mediaZone[2]);
 
-			this.admetaMediaZone = window.Fusion.mediaZone.replace("mkt." + a_mediaZone[1] + ".", "");
+			this.admetaMediaZone = this.short_media_zone
 			this.admetaMediaZone = this.admetaMediaZone.replace(/\.\d\.\d+[^_]*/g, '');
 
 			this.admetaAlias = a_mediaZone[1];
@@ -110,8 +114,9 @@ function mm_siteObject(args)
 
 			this.admetaSpaceMap["ad_artikel_special"] = {width: 200, height: 600, rank: 1};
 
-			// this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
-			// this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
+			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
+			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
+			this.admetaSpaceMap["ad_box_1"] = {width: 250, height: 360, rank: 1};
 
 			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240, rank: 1};
 			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240, rank: 2};
@@ -127,6 +132,8 @@ function mm_siteObject(args)
 			this.admetaSpaceMap["dt_ad_250x250_4"] = {width: 250, height: 240, rank: 4};
 
 			this.admetaSpaceMap["ad_250x800"] = {width: 250, height: 360, rank: 5};
+			this.admetaSpaceMap["ad_250x800_2"] = {width: 250, height: 360, rank: 6};
+			this.admetaSpaceMap["ad_250x800_3"] = {width: 250, height: 360, rank: 7};
 
 			this.admetaSpaceMap["ad_250x500"] = {width: 250, height: 360, rank: 6};
 
@@ -156,7 +163,7 @@ function mm_siteObject(args)
 			}
 
 			this.admetaLoadAdAsync = function(fusion_space_name, fusion_space_id) {
-				if(this.admetaSpaceMap[fusion_space_name] && window.location.origin.indexOf("http") > -1) {
+				if(this.admetaSpaceMap[fusion_space_name]) {
 					var ASM = this.admetaSpaceMap[fusion_space_name];
 					ADM_PL = {tagId: fusion_space_id, pbId:22, Site:this.admetaAlias, Page:this.admetaMediaZone+'_' + fusion_space_name, Width:ASM.width, Height:ASM.height, Rank:ASM.rank, clk:'[External click-tracking here]'}
 					window._Admeta=window._Admeta||{};
@@ -173,6 +180,7 @@ function mm_siteObject(args)
 							node.parentNode.insertBefore(ajs, node);
 						}
 					})();
+					return true;
 				}
 			}
 			/*
