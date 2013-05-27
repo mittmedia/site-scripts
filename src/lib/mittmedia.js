@@ -85,6 +85,10 @@ function mm_siteObject(args)
 
 			this.fusionMediaZone = a_mediaZone.join('.');
 
+			if(this.fusionMediaZone.indexOf("resor") > 0) {
+				layout = "mm_resor";
+			}
+
 			this.short_media_zone = this.fusionMediaZone.replace("mkt." + a_mediaZone[1] + ".", "");
 
 			if( this.fusionLayouts[this.short_media_zone] ) layout = this.fusionLayouts[this.short_media_zone];
@@ -117,6 +121,9 @@ function mm_siteObject(args)
 			this.admetaSpaceMap["ad_980x160"] = {width: 980, height: 120, rank: 1};
 			this.admetaSpaceMap["ad_980x160_2"] = {width: 980, height: 120, rank: 2};
 			this.admetaSpaceMap["ad_box_1"] = {width: 250, height: 360, rank: 1};
+			this.admetaSpaceMap["ad_box_2"] = {width: 250, height: 360, rank: 2};
+			this.admetaSpaceMap["ad_box_3"] = {width: 250, height: 360, rank: 3};
+			this.admetaSpaceMap["ad_box_4"] = {width: 250, height: 360, rank: 4};
 
 			this.admetaSpaceMap["ad_280x280_1"] = {width: 250, height: 240, rank: 1};
 			this.admetaSpaceMap["ad_280x280_2"] = {width: 250, height: 240, rank: 2};
